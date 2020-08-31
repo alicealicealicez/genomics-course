@@ -1,0 +1,12 @@
+---
+title: "Evolutionary Genomics & Bioinformatics"
+author: "Alice Zheng"
+date: "8/31/2020"
+output: html_document
+---
+
+##Labs
+
+![Lab 1](file:///Users/Alice/Desktop/Evolutionary%20Genomics/genomics-course/Lab1.html)
+![Lab 2](file:///Users/Alice/Desktop/Evolutionary%20Genomics/genomics-course/Lab-2.html)
+
