@@ -5,7 +5,7 @@ date: "8/31/2020"
 output: html_document
 ---
 
-## Labs
+## Here are my labs
 
 [Lab 1](Lab1.html)
 
