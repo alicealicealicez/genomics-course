@@ -1,0 +1,182 @@
+---
+title: "Lab3A"
+author: "Alice Zheng"
+date: "9/7/2020"
+output: html_document
+---
+# Starting with Data
+```{r setup}
+library(tidyverse)
+download.file(url="https://ndownloader.figshare.com/files/2292169",
+              destfile = "data/portal_data_joined.csv")
+```
+
+```{r}
+surveys <- read_csv("data/portal_data_joined.csv")
+head(surveys)
+```
+```{r}
+str(surveys)
+```
+## Challenge
+* The object surveys contain the classes ‘spec_tbl_df’, ‘tbl_df’, ‘tbl’ and 'data.frame'.
+* There are 34786 rows and 17 columns
+* There are 48 species
+
+```{r}
+surveys[1,1]
+surveys[1,6]
+head_surveys <- surveys[1:6, ]
+```
+```{r, include=FALSE}
+surveys$species_id
+```
+
+## Challenge
+### 1.
+```{r}
+surveys_200 <- surveys[200, ]
+surveys_200
+```
+### 2.
+```{r}
+nrow(surveys)
+tail(surveys)
+```
+```{r}
+surveys_last <- surveys[nrow(surveys), ]
+surveys_last
+```
+### 3.
+```{r}
+surveys_middle <- surveys[nrow(surveys)/2, ]
+surveys_middle
+```
+### 4.
+```{r}
+surveys[-(7:nrow(surveys)),]
+```
+
+## Factors
+```{r}
+sex <- factor(c("male", "female", "female", "male"))
+levels(sex)
+nlevels(sex)
+sex
+```
+
+```{r}
+year_fct <- factor(c(1990, 1983, 1977, 1998, 1990))
+as.numeric(levels(year_fct))[year_fct]
+```
+
+## Renaming Factors
+```{r}
+plot(as.factor(surveys$sex))
+```
+```{r}
+sex <- factor(surveys$sex)
+head(sex)
+```
+
+```{r}
+levels(sex)
+levels(sex)[0] <- "undetermined"
+levels(sex)
+head(sex)
+```
+
+## Challenge
+```{r}
+levels(sex)[1] <- "female"
+levels(sex)[2] <- "male"
+levels(sex)
+head(sex)
+```
+```{r}
+plot(sex)
+```
+ 
+## Using #StringAsFactor
+```{r}
+surveys <- read.csv("data/portal_data_joined.csv", stringsAsFactors = TRUE)
+str(surveys)
+```
+```{r}
+surveys <- read.csv("data/portal_data_joined.csv", stringsAsFactors = FALSE)
+str(surveys)
+```
+```{r}
+surveys$plot_type <- factor(surveys$plot_type)
+```
+
+## Challenge
+```{r}
+animal_data <- data.frame(
+          animal = c("dog", "cat", "sea cucumber", "sea urchin"),
+          feel = c("furry", "squishy", "spiny", "soft"),
+          weight = c(45, 8, 1.1, 0.8)
+          )
+```
+Needed quotes around the animals, a fourth feel, and a comma in the weight
+
+```{r}
+country_climate <- data.frame(
+       country = c("Canada", "Panama", "South Africa", "Australia"),
+       climate = c("cold", "hot", "temperate", "hot/temperate"),
+       temperature = c(10, 30, 18, "15"),
+       northern_hemisphere = c(TRUE, TRUE, FALSE, "FALSE"),
+       has_kangaroo = c(FALSE, FALSE, FALSE, 1)
+       )
+str(country_climate)
+```
+Did not expect temperature and hemisphere to be factors, and has kangaroo to be numeric.
+
+```{r}
+country_climate <- data.frame(
+       country = c("Canada", "Panama", "South Africa", "Australia"),
+       climate = c("cold", "hot", "temperate", "hot/temperate"),
+       temperature = c(10, 30, 18, "15"),
+       northern_hemisphere = c(TRUE, TRUE, FALSE, "FALSE"),
+       has_kangaroo = c(FALSE, FALSE, FALSE, 1)
+       )
+```
+
+Using stringsAsFactors = FALSE would have made them characters instead of factors. Remove the quotes around temperature 15 and FALSE in hemisphere, and change the 1 in kangaroo to FALSE.
+
+## Formatting Dates
+```{r}
+str(surveys)
+library("lubridate")
+```
+
+```{r}
+my_date <- ymd("2015-01-01")
+str(my_date)
+```
+```{r}
+my_date <- ymd(paste("2015", "1", "1", sep = "-")) 
+str(my_date)
+```
+
+```{r, include=FALSE}
+paste(surveys$year, surveys$month, surveys$day, sep = "-")
+```
+```{r, include=FALSE}
+ymd(paste(surveys$year, surveys$month, surveys$day, sep = "-"))
+```
+```{r}
+surveys$date <- ymd(paste(surveys$year, surveys$month, surveys$day, sep = "-"))
+```
+```{r}
+str(surveys)
+```
+```{r}
+summary(surveys$date)
+```
+```{r}
+missing_dates <- surveys[is.na(surveys$date), c("year", "month", "day")]
+
+head(missing_dates)
+```
+These dates failed to parse because they don't exist, and there are only 30 days in those months.
