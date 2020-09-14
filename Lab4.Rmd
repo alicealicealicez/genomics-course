@@ -1,0 +1,109 @@
+---
+title: "Lab4"
+author: "Alice Zheng"
+date: "9/14/2020"
+output: html_document
+---
+## Exercises Part 1
+```{r}
+library(tidyverse)
+```
+
+### 1.
+```{r}
+report_03_11_2020 <-   read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-11-2020.csv")) %>%
+  rename(Country_Region = "Country/Region", Province_State = "Province/State")
+```
+```{r}
+str(report_03_11_2020)
+```
+```{r}
+report_09_13_2020 <-   read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/09-13-2020.csv"))
+```
+```{r}
+str(report_09_13_2020)
+```
+```{r}
+view(report_03_11_2020)
+view(report_09_13_2020)
+```
+The format of the report 6 months later contains 14 variables which the earlier one only had 8. Some of the new variables are Case-Fatality-Ratio, Incidence_Rate, Combined_Key, Active, and FIPS.
+
+### 2.
+```{r}
+new_report <- report_09_13_2020 %>% 
+  group_by(Country_Region, Confirmed) 
+summarise(new_report)
+```
+
+### 3. 
+```{r}
+us_report <- report_09_13_2020 %>% 
+  filter(Country_Region == 'US') %>% 
+  group_by(Country_Region, Province_State, Confirmed)
+summarise(us_report)
+```
+
+### 4.
+```{r}
+library(dplyr)
+```
+
+```{r}
+dreport <- arrange(report_09_13_2020, desc(Deaths)) %>% 
+  slice(1:10)
+dreport
+```
+
+## Exercises Part 2
+
+### 5.
+```{r}
+ggplot(data = dreport, mapping = aes(y = Deaths, x = Country_Region)) +
+  geom_point()+
+  ggtitle("09_13_2020 Deaths")
+```
+```{r}
+ggplot(data = dreport, mapping = aes(y = Confirmed, x = Country_Region)) +
+  geom_point()+
+  ggtitle("09_13_2020 Confirmed Cases")
+```
+
+```{r}
+ereport <- arrange(report_03_11_2020, desc(Deaths)) %>% 
+  slice(1:10)
+ereport
+```
+```{r}
+ggplot(data = ereport, mapping = aes(y = Deaths, x = Country_Region)) +
+  geom_point()+
+  ggtitle("03_11_2020 Deaths")
+```
+
+```{r}
+ggplot(data = ereport, mapping = aes(y = Confirmed, x = Country_Region)) +
+  geom_point()+
+  ggtitle("03_11_2020 Confirmed Cases")
+```
+
+### 6.
+```{r}
+ggplot(data = dreport, aes(Country_Region, Confirmed)) +
+  geom_bar(stat = "identity")+
+  ggtitle("09_13_2020 Confirmed Cases")
+```
+```{r}
+ggplot(data = dreport, aes(Country_Region, Deaths)) +
+  geom_bar(stat = "identity")+
+  ggtitle("09_13_2020 Deaths")
+```
+```{r}
+ggplot(data = ereport, mapping = aes(y = Confirmed, x = Country_Region)) +
+  geom_bar(stat = "identity")+
+  ggtitle("03_11_2020 Confirmed Cases")
+```
+```{r}
+ggplot(data = ereport, mapping = aes(y = Deaths, x = Country_Region)) +
+  geom_bar(stat = "identity")+
+  ggtitle("03_11_2020 Deaths")
+```
