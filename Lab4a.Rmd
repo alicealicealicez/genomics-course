@@ -1,0 +1,96 @@
+---
+title: "Lab4a"
+author: "Alice Zheng"
+date: "9/14/2020"
+output: html_document
+---
+```{r}
+library(tidyverse)
+```
+
+## Plotting with ggplot2
+```{r}
+surveys_complete <- read_csv("data/portal_data_joined.csv")
+```
+```{r}
+ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) +
+  geom_point()
+```
+```{r}
+surveys_plot <- ggplot(data = surveys_complete, 
+                       mapping = aes(x = weight, y = hindfoot_length))
+```
+```{r}
+surveys_plot+
+  geom_point()
+```
+
+
+## Challenge
+```{r}
+library("hexbin")
+```
+```{r}
+surveys_plot +
+ geom_hex()
+```
+A hexagonal is more useful when there is a high density of points in an area compared to a scatter plot. On the other hand if there are less points, a scatterplot is more precise. 
+
+```{r}
+ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1)
+```
+```{r}
+ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1, color = "blue")
+```
+```{r}
+ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1, aes(color = species_id))
+```
+```{r}
+str(surveys_complete)
+```
+
+
+## Challenge
+```{r}
+ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1, aes(color = plot_type))
+```
+This is not a good way to show this type of data because the different colors are too mixed together and small to contribute any information to the graph. 
+
+## Boxplot
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+    geom_boxplot()
+```
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+    geom_boxplot(alpha = 0) +
+    geom_jitter(alpha = 0.3, color = "tomato")
+```
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+  geom_jitter(alpha = 0.3, color = "tomato")+
+  geom_boxplot(alpha = 0)
+```
+
+## Challenge
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+  geom_jitter(alpha = 0.3, color = "tomato")+
+  geom_violin()
+```
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+  geom_jitter(alpha = 0.3, color = "tomato")+
+  geom_violin()+
+  scale_y_log10()
+```
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = hindfoot_length)) +
+  geom_jitter(alpha = 0.3, aes(color = plot_id)) +
+  geom_boxplot(alpha = 0)
+```
+

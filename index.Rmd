@@ -15,3 +15,7 @@ output: html_document
 
 [Lab 3B](Lab3B.html)
 
+[Lab 4](Lab4.html)
+
+[Lab 4A](Lab4a.html)
+
