@@ -4,6 +4,7 @@ author: "Alice Zheng"
 date: "8/31/2020"
 output: html_document
 ---
+<img src="cat.jpg" width="200"/>
 
 ## Here are my labs
 
