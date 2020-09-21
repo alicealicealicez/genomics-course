@@ -4,6 +4,7 @@ author: "Alice Zheng"
 date: "9/14/2020"
 output: html_document
 ---
+# Data Visualization
 ```{r}
 library(tidyverse)
 ```
@@ -92,5 +93,175 @@ ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
 ggplot(data = surveys_complete, mapping = aes(x = species_id, y = hindfoot_length)) +
   geom_jitter(alpha = 0.3, aes(color = plot_id)) +
   geom_boxplot(alpha = 0)
+```
+
+## Plotting time series data
+```{r}
+library(tidyverse)
+surveys_complete <- read_csv("data/portal_data_joined.csv")
+```
+
+```{r}
+yearly_counts <- surveys_complete %>%
+  count(year, genus)
+ggplot(data = yearly_counts, aes(x = year, y = n)) +
+     geom_line()
+```
+```{r}
+ggplot(data = yearly_counts, aes(x = year, y = n, group = genus)) +
+    geom_line()
+```
+```{r}
+ggplot(data = yearly_counts, aes(x = year, y = n, color = genus)) +
+    geom_line()
+```
+
+## Integrating the pipe operator with ggplot2
+```{r}
+yearly_counts %>% 
+    ggplot(mapping = aes(x = year, y = n, color = genus)) +
+    geom_line()
+```
+```{r}
+yearly_counts_graph <- surveys_complete %>%
+    count(year, genus) %>% 
+    ggplot(mapping = aes(x = year, y = n, color = genus)) +
+    geom_line()
+
+yearly_counts_graph
+```
+
+## Faceting
+```{r, fig.width=10,fig.height=11}
+ggplot(data = yearly_counts, aes(x = year, y = n)) +
+    geom_line() +
+    facet_wrap(facets = vars(genus), ncol = 3)
+```
+```{r, fig.width=10,fig.height=11}
+yearly_sex_counts <- surveys_complete %>%
+                      count(year, genus, sex)
+ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
+  geom_line() +
+  facet_wrap(facets =  vars(genus), ncol=3)
+```
+```{r, fig.width=13,fig.height=7}
+ggplot(data = yearly_sex_counts, 
+       mapping = aes(x = year, y = n, color = sex)) +
+  geom_line() +
+  facet_grid(rows = vars(sex), cols =  vars(genus))
+```
+```{r, fig.width=10,fig.height=15}
+ggplot(data = yearly_sex_counts, 
+       mapping = aes(x = year, y = n, color = sex)) +
+  geom_line() +
+  facet_grid(rows = vars(genus))
+
+```
+```{r, fig.width=13,fig.height=6}
+ggplot(data = yearly_sex_counts, 
+       mapping = aes(x = year, y = n, color = sex)) +
+  geom_line() +
+  facet_grid(cols = vars(genus))
+
+```
+
+## ggplot2 themes
+```{r, fig.width=10,fig.height=11}
+ggplot(data = yearly_sex_counts, 
+        mapping = aes(x = year, y = n, color = sex)) +
+     geom_line() +
+     facet_wrap(vars(genus), ncol=3) +
+     theme_bw()
+```
+
+## Challenge
+```{r, fig.width=10,fig.height=14}
+yearly_weight <- surveys_complete %>%
+                group_by(year, species_id) %>%
+                 summarize(avg_weight = mean(weight))
+ggplot(data = yearly_weight, aes(x = year, y = avg_weight)) +
+    geom_line() +
+    facet_wrap(facets = vars(species_id), ncol=3)
+```
+
+## Customization
+```{r, fig.width=10,fig.height=11}
+ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex)) +
+    geom_line() +
+    facet_wrap(vars(genus), ncol=3) +
+    labs(title = "Observed genera through time",
+         x = "Year of observation",
+         y = "Number of individuals") +
+    theme_bw()
+```
+```{r, fig.width=10,fig.height=11}
+ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
+    geom_line() +
+    facet_wrap(vars(genus), ncol=3) +
+    labs(title = "Observed genera through time",
+        x = "Year of observation",
+        y = "Number of individuals") +
+    theme_bw() +
+    theme(text=element_text(size = 16))
+```
+
+```{r, fig.width=10,fig.height=11}
+ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
+    geom_line() +
+    facet_wrap(vars(genus), ncol=3) +
+    labs(title = "Observed genera through time",
+        x = "Year of observation",
+        y = "Number of individuals") +
+    theme_bw() +
+    theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90, hjust = 0.5, vjust = 0.5),
+                        axis.text.y = element_text(colour = "grey20", size = 12),
+                        strip.text = element_text(face = "italic"),
+                        text = element_text(size = 16))
+```
+
+```{r, fig.width=10,fig.height=6}
+grey_theme <- theme(axis.text.x = element_text(colour="grey20", size = 12, 
+                                               angle = 90, hjust = 0.5, 
+                                               vjust = 0.5),
+                    axis.text.y = element_text(colour = "grey20", size = 12),
+                    text=element_text(size = 16))
+
+ggplot(surveys_complete, aes(x = species_id, y = hindfoot_length)) +
+    geom_boxplot() +
+    grey_theme
+
+```
+
+## Challenge
+```{r, fig.width=10,fig.height=11}
+yearly_counts %>% 
+  ggplot(mapping = aes(x = year, y = n)) +
+  facet_wrap(vars(genus), ncol=3)+
+  geom_line()+
+  labs(title = "Observed genera through time",
+       x = "Year of observation",
+       y = "number of individuals")+
+  theme_bw()+
+  theme(text=element_text(size = 16))
+```
+
+## Arranging and exporting plots
+```{r, fig.width=10,fig.height=7}
+library(gridExtra)
+
+spp_weight_boxplot <- ggplot(data = surveys_complete, 
+                             aes(x = species_id, y = weight)) +
+  geom_boxplot() +
+  labs(x = "Species", 
+       y = expression(log[10](Weight))) +
+  scale_y_log10() + 
+  labs()
+
+spp_count_plot <- ggplot(data = yearly_counts, 
+                         aes(x = year, y = n, color = genus)) +
+  geom_line() + 
+  labs(x = "Year", y = "Abundance")
+
+grid.arrange(spp_weight_boxplot, spp_count_plot, ncol = 2, widths = c(4, 6))
 ```
 
