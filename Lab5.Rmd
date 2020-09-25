@@ -108,7 +108,6 @@ time_series_deaths_long <- time_series_deaths_long %>%
   select(Key, Deaths)
 ```
 
-
 ```{r}
 time_series_long_joined <- full_join(time_series_confirmed_long,
               time_series_deaths_long, by = c("Key")) %>% 
@@ -127,7 +126,7 @@ time_series_long_joined$Date <- mdy(time_series_long_joined$Date)
 ```
 
 
-```{r, fig.height=8, fig.width=12}
+```{r, fig.height=20, fig.width=12}
 ggplot(data=time_series_long_joined, aes(x = Date,  y = Deaths, fill=Country_Region)) + 
     geom_col() +
     ggtitle("COVID-19 Deaths")+
@@ -189,18 +188,27 @@ time_series_long_joined %>%
 
 ### 9.
 ```{r}
+time_series_confirmed <- read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")) 
+```
+
+```{r}
 time_series_cl <- time_series_confirmed %>% 
-  pivot_longer(-c(Province_State, Country_Region, Lat, Long),
+  pivot_longer(-c(Province_State, Country_Region, UID, Admin2, iso2, code3, iso3, FIPS, Lat, Combined_Key),
             names_to = "Date", values_to = "Confirmed")
 new_cl <- time_series_cl %>%
-  filter(Country_Region == "US")
+    group_by(Province_State,Date) %>% 
+    summarise_at(c("Confirmed"), sum)
 head(new_cl,50)
 ```
 
-```{r, fig.height=5, fig.width=10}
+```{r}
+new_cl$Date <- mdy(new_cl$Date)
+```
+
+```{r, fig.height=21, fig.width=10}
 ggplot(new_cl, aes(x=Date, y=Confirmed))+
   geom_point()+
-  facet_wrap(vars(Province_State))
+  facet_wrap(vars(Province_State), ncol = 3)
 ```
 
 ## 10.
