@@ -132,3 +132,5 @@ ggplotly(
 )
 ```
 
+## References
+Application written in R [@RCoreTeam] using data from the COVID-19 Dashboard by Johns Hopkins University (JHU)[@JHUCSSE].
