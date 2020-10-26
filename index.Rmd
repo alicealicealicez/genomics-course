@@ -29,3 +29,6 @@ output: html_document
 [Lab 7](Lab7.html)
 
 [Lab 8](Lab8.html)
+
+[Lab 9](Lab9.html)
+

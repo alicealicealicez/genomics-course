@@ -1,0 +1,114 @@
+---
+title: "Lab 9"
+author: "Alice Zheng"
+date: "10/26/2020"
+output: html_document
+---
+```{r}
+library(stringr)
+library(tidyverse)
+```
+
+### 14.3.1.1
+these strings don't match a \\\ because you need 4 \\\'s in order to match one backslash
+
+```{r}
+x <- "a\\b"
+str_view(x, "\\\n")
+```
+
+
+### 14.3.2.1
+```{r, results="hide"}
+str_view(x, "^\\$\\^\\$$")
+```
+
+
+### 14.3.3.1
+```{r, results="hide"}
+str_view(x, "^[aeiou]")
+str_view(x, "^[^aeiou]")
+str_view(x, "[^e]ed$")
+str_view(x, "[ing|ise]$")
+```
+
+
+
+### 14.3.4.1
+? {0,1}
++ {1,}
+* {0,}
+
+### 14.3.5.1
+a character repeated 2 more times
+a pair of characters with the reverse after it
+a a pair of characters repeated once
+a character followed by any character, the character again, any character, and the character once more
+three characters, 0 or more characters of any kind, the three characters in reverse order
+
+### 14.4.1.1
+
+```{r, results="hide"}
+str_detect(words, "^x|x$") 
+start <- str_detect(words, "^x")
+end <- str_detect(words, "x$")
+words[start|end]
+```
+
+```{r, results="hide"}
+str_detect(words, "^[aeiou]|[^aeiou]$") 
+start <- str_detect(words, "^[aeiou]")
+end <- str_detect(words, "[^aeiou]$")
+words[start|end]
+```
+
+
+```{r}
+a <- str_detect(words, "a") 
+ae <- str_detect(a, "e") 
+aei <- str_detect(ae, "i") 
+aeio <- str_detect(aei, "o") 
+aeiou <- str_detect(aeio, "u") 
+head(aeiou)
+```
+
+### 14.4.2.1
+```{r}
+colours <- c("red", "orange", "yellow", "green", "blue", "purple")
+colour_match <- str_c("\\b(", str_c(colours, collapse = "|"), ")\\b")
+colour_match
+more <- sentences[str_count(sentences, colour_match) > 1]
+str_view_all(more, colour_match)
+```
+
+### 14.4.3.1
+```{r}
+num <- "(one|two|three|four|five|six|seven|eight|nine|ten) ([^ ]+)"
+has_num <- sentences %>%
+  str_subset(num) %>%
+  head(10)
+has_num %>% 
+  str_extract(num)
+```
+
+```{r}
+has_num %>% 
+  str_match(num)
+```
+
+### 14.4.4.1
+```{r}
+s <- "\\\\\\"
+s1 <- str_replace_all(s, "\\\\", "/")
+s1
+```
+
+### 14.4.5.1
+```{r}
+s <- "apples, pears, and bananas"
+str_split(s, boundary("word"))[[1]]
+```
+
+
+
+
