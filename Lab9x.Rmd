@@ -1,0 +1,124 @@
+---
+title: "Lab9x"
+author: "Alice Zheng"
+date: "11/1/2020"
+output: html_document
+---
+
+## Conditional Statements
+```{r}
+x <- runif(1, 0, 10)  
+if(x > 5) {
+        y <- 7
+} else {
+        y <- 1
+}
+```
+
+## For loops
+```{r}
+for(i in 1:5) {
+        print(i^2)
+}
+```
+
+```{r}
+x <- c("a", "b", "c", "d", "e")
+for(i in 1:5) {
+        print(x[i])  
+}
+```
+
+```{r}
+for(i in seq_along(x)) {   
+        print(x[i])
+}
+```
+
+```{r}
+for(letter in x) {
+        print(letter)
+}
+```
+
+```{r}
+for(i in 1:5) print(x[i])
+```
+
+## Nested for loops
+```{r}
+x <- matrix(1:6, 2, 2)
+for(i in seq_len(nrow(x))) {
+        for(j in seq_len(ncol(x))) {
+                print(x[i, j])
+        }   
+}
+```
+
+## while loops
+```{r}
+count <- 10
+while(count > 0) {
+        print(count)
+        count <- count - 1
+}
+```
+
+```{r}
+z <- 7
+set.seed(1)
+while(z >= 3 && z <= 8) {
+        coin <- rbinom(1, 1, 0.5)
+        
+        if(coin == 1) {  
+                z <- z + 1
+        } else {
+                z <- z - 1
+        } 
+}
+print(z)
+```
+
+
+## Functions
+```{r}
+f <- function(num) {
+        for(i in seq_len(num)) {
+                cat("Hello, function!\n")
+        }
+}
+f(2)
+```
+
+```{r}
+f <- function(num) {
+        hello <- "Hello, function!\n"
+        for(i in seq_len(num)) {
+                cat(hello)
+        }
+        chars <- nchar(hello) * num
+        chars
+}
+randomnum <- f(2)
+```
+
+```{r}
+print(randomnum)
+```
+
+```{r}
+f <- function(num = 2) {
+        hello <- "Hello, world!\n"
+        for(i in seq_len(num)) {
+                cat(hello)
+        }
+        chars <- nchar(hello) * num
+        chars
+}
+f() 
+```
+
+```{r}
+f(num = 3)
+```
+
