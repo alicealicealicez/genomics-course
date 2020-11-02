@@ -34,3 +34,5 @@ output: html_document
 
 [Lab 9x](Lab9x.html)
 
+[Lab 10](Lab10.html)
+
