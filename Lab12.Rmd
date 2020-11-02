@@ -1,0 +1,17 @@
+---
+title: "Lab 12"
+author: "Alice Zheng"
+date: "11/16/2020"
+output: html_document
+---
+
+## Cytoscape graphs
+
+<img src="Cytoscape1.png"/>
+
+<img src="Cytoscape2.png"/>
+
+<img src="Cytoscape3.png"/>
+
+<img src="Cytoscape4.png"/>
+

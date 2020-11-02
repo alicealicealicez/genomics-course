@@ -6,6 +6,7 @@ output: html_document
 ---
 <img src="cat.jpg" width="200"/>
 
+
 ## Here are my labs
 
 [Lab 1](Lab1.html)
@@ -33,4 +34,10 @@ output: html_document
 [Lab 9](Lab9.html)
 
 [Lab 9x](Lab9x.html)
+
+[Lab 10](Lab10.html)
+
+[Lab 11](Lab11.html)
+
+[Lab 12](Lab12.html)
 
