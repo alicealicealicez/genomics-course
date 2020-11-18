@@ -40,4 +40,3 @@ output: html_document
 [Lab 11](Lab11.html)
 
 [Lab 12](Lab12.html)
-
