@@ -2,16 +2,27 @@
 title: "Lab 12"
 author: "Alice Zheng"
 date: "11/16/2020"
-output: html_document
+output:
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
 ---
 
 ## Cytoscape graphs
 
+### 1. 
+
 <img src="Cytoscape1.png"/>
+
+### 2. 
 
 <img src="Cytoscape2.png"/>
 
+### 3. 
+
 <img src="Cytoscape3.png"/>
+
+### 4.
 
 <img src="Cytoscape4.png"/>
 

@@ -2,7 +2,10 @@
 title: "Evolutionary Genomics & Bioinformatics"
 author: "Alice Zheng"
 date: "8/31/2020"
-output: html_document
+output:
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
 ---
 <img src="cat.jpg" width="200"/>
 
